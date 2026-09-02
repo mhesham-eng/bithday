@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Taleen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Caveat:wght@500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<svg style="display:none">
+  <symbol id="icon-flame" viewBox="0 0 16 24"><path d="M8 2 C4 8 2 12 2 15 C2 19.4 4.7 22 8 22 C11.3 22 14 19.4 14 15 C14 12 12 8 8 2 Z"/></symbol>
+  <symbol id="icon-mic" viewBox="0 0 24 32"><rect x="8" y="2" width="8" height="16" rx="4"/><path d="M4 14 C4 20 8 24 12 24 C16 24 20 20 20 14" /><path d="M12 24 V30 M7 30 H17" stroke-width="1"/></symbol>
+  <symbol id="icon-key" viewBox="0 0 32 16"><circle cx="7" cy="8" r="6"/><path d="M13 8 H29 M22 8 V13 M26 8 V12"/></symbol>
+  <symbol id="icon-envelope" viewBox="0 0 32 24"><rect x="1" y="1" width="30" height="22" rx="1"/><path d="M2 2 L16 15 L30 2"/></symbol>
+  <symbol id="icon-note" viewBox="0 0 24 28"><circle cx="6" cy="22" r="4"/><path d="M10 22 V4 L22 1 V19"/><circle cx="18" cy="19" r="4"/></symbol>
+  <symbol id="icon-tulip" viewBox="0 0 40 60"><path d="M20 60 V26" stroke-width="2"/><path d="M20 40 C10 38 6 30 8 22" stroke-width="2"/><path d="M20 46 C30 44 34 34 32 26" stroke-width="2"/><path d="M20 0 C10 6 8 16 20 26 C32 16 30 6 20 0 Z"/></symbol>
+</svg>
+
+<canvas id="cursor-canvas"></canvas>
+<div id="progress-dots"></div>
+
+<!-- ============ THE ONE SHARED BEACH VIDEO ============ -->
+<video id="sharedBeachVideo" class="bg-video video-parked" autoplay muted loop playsinline>
+  <source src="assets/beach.mp4" type="video/mp4">
+</video>
+
+<!-- ============ ACT I — THE OPENING LETTER + THE GIFT ============ -->
+<section class="scene active" id="scene-getready">
+  <div class="scene-inner narrow" id="letterIntroStage">
+    <div class="letter-card" id="letterIntroCard">
+      <div id="letterIntroParagraphs" class="letter-paragraphs"></div>
+      <svg class="letter-tulips" viewBox="0 0 240 60">
+        <use href="#icon-tulip" x="10" y="0" width="40" height="60"/>
+        <use href="#icon-tulip" x="70" y="8" width="34" height="52"/>
+        <use href="#icon-tulip" x="130" y="0" width="40" height="60"/>
+        <use href="#icon-tulip" x="190" y="8" width="34" height="52"/>
+      </svg>
+    </div>
+    <button class="continue-btn hidden-until-done" id="letterIntroContinue">Now, let's go →</button>
+  </div>
+
+  <div class="scene-inner" id="giftBoxStage" style="display:none;">
+    <button class="gift-box" id="giftBox">
+      <div class="gift-tag">
+        <span id="giftTagTo"></span>
+        <span id="giftTagFrom"></span>
+      </div>
+      <div class="gift-lid"></div>
+      <div class="gift-body"></div>
+      <div class="gift-ribbon-v"></div>
+      <div class="gift-ribbon-h"></div>
+      <div class="gift-bow"></div>
+    </button>
+    <p class="lede ghost-hint">tap to unwrap</p>
+  </div>
+
+  <div class="scene-inner" id="act1TextStage" style="display:none;">
+    <p class="title reveal-up" id="postUnwrapLine"></p>
+    <button class="continue-btn wide-btn reveal-up" id="act1Continue" data-next="scene-journey">COME WITH ME →</button>
+  </div>
+</section>
+
+<!-- ============ ACT II — THE JOURNEY ============ -->
+<section class="scene" id="scene-journey">
+  <div class="media-bg">
+    <video id="roadVideo" class="bg-video" autoplay muted loop playsinline>
+      <source src="assets/road.mp4" type="video/mp4">
+    </video>
+    <div class="bg-video-fallback" id="roadFallback"></div>
+    <div class="media-scrim"></div>
+  </div>
+  <div class="scene-inner">
+    <div id="journeyLines" class="line-stage line-stage--journey"></div>
+  </div>
+  <button class="continue-btn floor-btn hidden-until-done" id="journeyContinue" data-next="scene-arrival">we've arrived</button>
+</section>
+
+<!-- ============ ACT III — ARRIVAL ============ -->
+<section class="scene" id="scene-arrival">
+  <div class="media-bg" id="mediaBg-arrival">
+    <div class="bg-video-fallback bg-video-fallback--warm" id="beachFallbackArrival"></div>
+    <div class="media-scrim"></div>
+  </div>
+  <audio id="arrivalSong" src="assets/arrival-song.mp3" loop preload="none"></audio>
+  <button id="songToggle" class="corner-btn" title="music">
+    <svg class="icon icon--sm" viewBox="0 0 24 28"><use href="#icon-note"></use></svg>
+  </button>
+  <div class="scene-inner">
+    <p class="eyebrow reveal-up">the table is set</p>
+    <div class="table-setting reveal-up">
+      <div class="place-card" id="arrivalPlaceYou">TALEEN</div>
+      <div class="candle-row">
+        <span class="tiny-flame"><svg class="icon icon--sm" viewBox="0 0 16 24"><use href="#icon-flame"></use></svg></span>
+        <span class="tiny-flame"><svg class="icon icon--sm" viewBox="0 0 16 24"><use href="#icon-flame"></use></svg></span>
+      </div>
+      <div class="place-card" id="arrivalPlaceMe">MOHAMMAD</div>
+    </div>
+    <p class="lede reveal-up ghost-hint" style="margin-bottom:0;">you're here. right now. at this table.</p>
+    <div id="waiterGreetingLines" class="line-stage" style="margin-top:1.6rem;"></div>
+    <button class="continue-btn hidden-until-done" id="arrivalContinue" data-next="scene-dinner">take us to the menu</button>
+  </div>
+</section>
+
+<!-- ============ ACT IV — THE DINNER ============ -->
+<section class="scene" id="scene-dinner">
+  <div class="media-bg" id="mediaBg-dinner">
+    <div class="bg-video-fallback bg-video-fallback--warm"></div>
+    <div class="media-scrim"></div>
+  </div>
+  <div class="scene-inner wide" id="menuStage">
+    <div class="menu-card">
+      <p class="eyebrow reveal-up">tonight's menu</p>
+      <div class="menu-rule"></div>
+      <div class="menu-cols" id="menuCols"></div>
+    </div>
+  </div>
+  <div class="scene-inner" id="dinnerSceneStage" style="display:none;">
+    <p class="waiter-line" id="waiterReaction"></p>
+    <p class="lede" id="dishServed"></p>
+    <p class="lede ghost-hint" style="margin-top:2rem;">take your time.</p>
+    <button class="continue-btn" data-next="scene-letter">I'm ready →</button>
+  </div>
+</section>
+
+<!-- ============ ACT V — THE LETTER ============ -->
+<section class="scene" id="scene-letter">
+  <div class="media-bg" id="mediaBg-letter">
+    <div class="bg-video-fallback bg-video-fallback--warm"></div>
+    <div class="media-scrim media-scrim--heavy"></div>
+  </div>
+  <div class="scene-inner narrow">
+    <div id="envelopeStage">
+      <p class="eyebrow reveal-up">a waiter returns — carrying only one envelope</p>
+      <button class="envelope-3d" id="openEnvelopeBtn">
+        <span class="envelope-back"></span>
+        <span class="envelope-flap"></span>
+        <span class="envelope-front"></span>
+        <span class="envelope-seal"></span>
+      </button>
+      <p class="lede ghost-hint">break the seal</p>
+    </div>
+    <div id="letterStage" class="letter-stage">
+      <div class="letter-card">
+        <div id="letterParagraphs" class="letter-paragraphs"></div>
+        <svg class="letter-tulips" viewBox="0 0 240 60">
+          <use href="#icon-tulip" x="10" y="0" width="40" height="60"/>
+          <use href="#icon-tulip" x="70" y="8" width="34" height="52"/>
+          <use href="#icon-tulip" x="130" y="0" width="40" height="60"/>
+          <use href="#icon-tulip" x="190" y="8" width="34" height="52"/>
+        </svg>
+      </div>
+      <button class="continue-btn hidden-until-done" id="letterContinue" data-next="scene-suitcase">what's this?</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACT VI — THE SUITCASE ============ -->
+<section class="scene" id="scene-suitcase">
+  <div class="media-bg" id="mediaBg-suitcase">
+    <div class="bg-video-fallback bg-video-fallback--warm"></div>
+    <div class="media-scrim media-scrim--heavy"></div>
+  </div>
+  <div class="scene-inner wide" id="suitcaseClosedStage">
+    <p class="eyebrow reveal-up" id="suitcaseIntroLine"></p>
+    <div class="suitcase3d-wrap reveal-up"><canvas id="suitcaseCanvas"></canvas></div>
+    <p class="lede ghost-hint" id="suitcaseTapHint">tap the case to open it</p>
+  </div>
+  <div class="scene-inner wide" id="suitcaseOpenStage" style="display:none;">
+    <p class="eyebrow reveal-up">inside</p>
+    <div class="suitcase-grid">
+      <button class="suitcase-item" data-open="panel-pass"><span class="item-label">the gold pass</span></button>
+      <button class="suitcase-item" data-open="panel-ring"><span class="item-label">for you</span></button>
+      <button class="suitcase-item" data-open="panel-key"><svg class="icon" viewBox="0 0 32 16"><use href="#icon-key"></use></svg><span class="item-label">the key</span></button>
+    </div>
+    <button class="continue-btn" data-next="scene-cake" id="suitcaseContinueBtn" style="opacity:.4; pointer-events:none;">i love you</button>
+  </div>
+</section>
+
+<!-- ---- Panel: Gold Pass ---- -->
+<div class="panel-overlay" id="panel-pass">
+  <div class="panel-card">
+    <button class="panel-close" data-close>&times;</button>
+    <div class="gold-pass" id="goldPass">
+      <div class="gold-pass-face gold-pass-front">
+        <div class="pass-shine"></div>
+        <p class="pass-title">THE GOLDEN PASS</p>
+        <p class="pass-meta">Valid: <span id="passDate"></span></p>
+        <p class="pass-meta">Holder: <span id="passHolder"></span></p>
+        <p class="pass-body" id="passBody"></p>
+        <p class="pass-fine" id="passFine"></p>
+      </div>
+      <div class="gold-pass-face gold-pass-back">
+        <p class="pass-body" id="passBack"></p>
+      </div>
+    </div>
+    <p class="lede ghost-hint">tap the pass to flip it</p>
+  </div>
+</div>
+
+<!-- ---- Panel: Ring ---- -->
+<div class="panel-overlay" id="panel-ring">
+  <div class="panel-card">
+    <button class="panel-close" data-close>&times;</button>
+    <div class="ring-frame">
+      <img src="assets/ring.jpg" id="ringImg" alt="">
+      <div class="ring-fallback" id="ringFallback">place a photo of the ring<br>named <b>ring.jpg</b><br>in the <b>assets</b> folder</div>
+      <div class="ring-shine"></div>
+    </div>
+    <p class="lede" id="ringCaption"></p>
+  </div>
+</div>
+
+<!-- ---- Panel: Key ---- -->
+<div class="panel-overlay" id="panel-key">
+  <div class="panel-card">
+    <button class="panel-close" data-close>&times;</button>
+    <svg class="icon icon--lg" viewBox="0 0 32 16" style="margin:0 auto 1.2rem;"><use href="#icon-key"></use></svg>
+    <p class="lede" id="keyText"></p>
+    <p class="lede ghost-hint" id="keyFootnote"></p>
+  </div>
+</div>
+
+<!-- ============ ACT VIII — THE CAKE ============ -->
+<section class="scene" id="scene-cake">
+  <div class="media-bg" id="mediaBg-cake">
+    <div class="bg-video-fallback bg-video-fallback--night"></div>
+    <div class="media-scrim media-scrim--heavy"></div>
+  </div>
+  <div class="scene-inner">
+    <p class="eyebrow reveal-up" id="cakeIntroLine"></p>
+    <p class="eyebrow reveal-up" id="cakeLine1"></p>
+    <div class="cake3d-wrap"><canvas id="cakeCanvas"></canvas></div>
+    <p class="title reveal-up" id="cakeLine2"></p>
+    <div class="mic-status" id="micStatus">allow your microphone, and blow toward the screen</div>
+    <button class="continue-btn" id="micRequestBtn">
+      <svg class="icon icon--sm" viewBox="0 0 24 32" style="vertical-align:-3px; margin-right:6px;"><use href="#icon-mic"></use></svg>
+      make your wish →
+    </button>
+    <button class="continue-btn ghost" id="tapBlowBtn">or simply tap to blow them out</button>
+  </div>
+</section>
+
+<!-- ============ ACT IX — THE FINALE ============ -->
+<section class="scene" id="scene-finale">
+  <canvas id="fireworksCanvas" class="fireworks-canvas"></canvas>
+  <div class="tulip-field" id="tulipField"></div>
+  <div class="scene-inner">
+    <h1 class="finale-title reveal-up" id="finaleTitle"></h1>
+    <p class="lede reveal-up" id="finaleSignature"></p>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="js/content.js"></script>
+<script src="js/core.js"></script>
+<script src="js/media.js"></script>
+<script src="js/journey.js"></script>
+<script src="js/dinner.js"></script>
+<script src="js/letter.js"></script>
+<script src="js/suitcase.js"></script>
+<script src="js/cake.js"></script>
+<script src="js/finale.js"></script>
+</body>
+</html>
